@@ -1,4 +1,5 @@
-(ns notes.chapter03)
+(ns notes.chapter03
+	(:require clojure.set))
 
 (defn -main
 	[]
@@ -78,7 +79,86 @@
 	(doall (take 5 (lazy-random 100)))
 	; "generating random" printed 5 times. seq returned (with five random numbers)
 
-	
+	"maps - assoc/dissoc/get"
+	(def m {:a 1 :b 2 :c 3})
+	(get m :d "default value")
+	; "default value"
+	(let [m (assoc m :d 4)]
+		(get m :d "default-value"))
+		; 4
+	(dissoc m :b)
+	; {:a 1, :c 3}
+
+	; assigning/designing multiple entries at once
+	(dissoc m :a :b)
+	; {:c 3}
+
+	(assoc m
+		:g 1
+		:h 2)
+	; {:h 2, :g 1, :a 1, :c 3, :b 2}
+
+	"assoc/get can be used with vectors as well"
+	(def v [1 2 3])
+	(assoc v 0 "a")
+	; ["a" 2 3]
+	(assoc v 3 "a")
+	; [1 2 3 "a"]
+	(get v 1)
+	; 2
+
+	"contains? - check for the presence of the given KEY (not value) in a collection"
+	(contains? [1 2 3] 0)
+	; true					because vector contains 0th element (not the value 0)
+	(contains? [5 5 5] 5)
+	; false					because vector contains only three elements (so keys 0,1,2)
+	(contains? {:a 1 :b 2} :a)
+	; true
+	(contains? {:a 1 :b 2} 2)
+	; false					because "2" is the value for :b, but not the key
+
+	"get returns nil when key is not present, but it can return nil when it's a value as well"
+	(get {:a nil} :a) 
+	; nil
+	"how to thell whether there is a key with 'nil' value or there is no such key? Use find."
+	(find {:a nil} :a)
+	; [:a nil]
+	(find {:a nil} :b)
+	; nil
+
+	"nth - similar to get, but will throw IndexOutOfBoundsException instead of returning nil. And works only with numerical indexes."
+	; (nth [1 1 1] 3)
+	; throws 
+
+	"stacks - lists and vectors + conj/pop/peek"
+	(conj '(1 2 3) "a")
+	; ("a" 1 2 3)
+	(pop '(1 2 3))
+	; (2 3)
+	(peek '(1 2 3))
+	; 1
+
+	"disj - remove value from the set"
+	(disj #{1 2 3 4} 1 3)
+	; #{2 4}
+
+	"clojure.set namespace for useful operations on sets"
+	(clojure.set/union #{1 2 3} #{2 3 4})
+	; #{1 2 3 4}
+	(clojure.set/subset? #{1 2 3} #{2 3})
+	; false
+	(clojure.set/superset? #{1 2 3} #{2 3})
+	; true
+	(clojure.set/subset? #{2 3} #{1 2 3})
+	; true
+	(clojure.set/superset? #{2 3} #{1 2 3})
+	; false
+	(clojure.set/intersection #{1 2 3} #{2 3 4 5})
+	; #{2 3}
+	(clojure.set/project #{ {:name "Jorges" :age 27} {:name "Luis" :age 72} } [:name])
+	; #{{:name "Jorges"} {:name "Luis"}}
+
+
 
 
 	)
