@@ -98,6 +98,17 @@
   "Conditionals: when"
   (when true (println "a") (println "b") (println "c"))
 
+  "when-let"
+  ; Prints "1"
+  (when-let 
+    [x (first [1 2 3])]
+    (println "when-let" (str x)))
+
+  ; Prints nothing because (first []) is nil.
+  (when-let 
+    [x (first [])]
+    (println "when-let" (str x)))
+
   "Conditionals: cond"
   (defn sigma
   	[x]
