@@ -147,7 +147,49 @@
 		(http-get "fake")
 		(println *response-code*))
 
-	
+	"agents"
+	(def a (agent 5000))
+	(def b (agent 10000))
 
+	(send-off a #(Thread/sleep %))
+	(send-off b #(Thread/sleep %))
+
+	(comment
+		(println "@a before await: " (str @a))
+		; 5000
+		(await a b)
+		(println "@a after await: " (str @a))
+		; nil
+	)
+
+	"agent - *agent* binding"
+	(send-off a (fn [_] (println "*agent* = " (str *agent*))))
+	; *agent* =  clojure.lang.Agent@6212f195
+
+	"agents - exception handling"
+	(def a-err (agent nil))
+	(send a-err (fn [_] (throw (Exception. "invalid blah blah"))))
+	(send a-err #(assoc % :key "value 1"))
+	;(await-for 1000 a-err)
+
+	; This would throw:
+	(comment (send a-err identity))
+
+	; This will only check of an exception and return it
+	(comment (println (agent-error a-err))
+	(restart-agent a-err {})
+	(send a-err #(throw (Exception. "some another fuckup")))
+	(send a-err #(assoc % :key "value 2"))
+	(println (agent-error a-err)))
+
+	(def a2 (agent nil
+		:error-mode :continue
+		:error-handler (fn [the-agent exception] (println "error in agent a2" (.getMessage exception)))))
+	(send a2 inc)
+
+	"doto"
+	(doto "lorem ipsum"
+		(println "dolor" "sit" "amet"))
+	; Prints "lorem ipsum dolor sit amet"
 
 	)
