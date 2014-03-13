@@ -7,7 +7,16 @@
   ;:main notes.chapter03
   ;:main notes.chapter03gameoflife
   ;:main notes.chapter04
-  :main notes.chapter04crawler
+  ;:main notes.chapter04crawler
+  ;:main notes.chapter05
+  ;:main notes.chapter06
+  ;:main notes.chapter07a
+  ;:main notes.chapter07b
+  ;:main notes.chapter07c
+  ;:main notes.chapter07d
+  ;:main notes.chapter07multi
+  ;:main notes.chapter07type
+  :main notes.chapter07z
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [
