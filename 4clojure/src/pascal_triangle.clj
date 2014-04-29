@@ -16,10 +16,17 @@
    (let [xs-next (map +' (cons 0 xs) (concat xs [0]))]
      (cons xs (_pt xs-next)))))
 
+(defn- _nthrow
+  [x]
+  (let [factorial #(reduce * 1 (range (inc %)))
+        binomial #(/ (factorial %1) (* (factorial %2) (factorial (- %1 %2))))])
+  (map #(binomial % x) (range 0 x)))
+
 (defn pascal-triangle
   []
 
   (prn (take 100 (_pascal-triangle [2 4 2])))
   (prn (take 100 (_pt [2 4 2])))
+  (prn (_nthrow 5))
 
   )
